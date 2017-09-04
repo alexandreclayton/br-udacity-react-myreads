@@ -20,7 +20,7 @@ export const Book = ({ data, onBookChangerState }) => (
 );
 
 export const Shelf = ({ title = "No title", books = [], onBookChangerState }) => (
-    <div className="bookshelf">
+    <div className="bookshelf" >
         <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
             <ol className="books-grid">

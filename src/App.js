@@ -7,12 +7,18 @@ import './App.css'
 
 class BooksApp extends Component {
   state = {
+    shelfs: [],
     books: []
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState((state) => ({ books }))
+      this.setState((state) => ({
+        books,
+        shelfs: [{ id: "currentlyReading", title: "Currently Reading" },
+        { id: "wantToRead", title: "Want to Read" },
+        { id: "read", title: "Read" }]
+      }))
     });
   }
 
@@ -34,7 +40,7 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
-          <HomeScene books={this.state.books}
+          <HomeScene books={this.state.books} shelfs={this.state.shelfs}
             onBookChangerState={this.onBookChangerState}
           />
         )} />
