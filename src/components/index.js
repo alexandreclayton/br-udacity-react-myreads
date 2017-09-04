@@ -1,7 +1,8 @@
 import React from 'react';
 
-export const Book = ({ data, onBookChangerState }) => (
-    <div className="book">
+export const Book = ({ data, onBookChangerState }) => {
+    const { authors = [] } = data;
+    return (<div className="book">
         <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${data.imageLinks.smallThumbnail}")` }}></div>
             <div className="book-shelf-changer">
@@ -16,12 +17,12 @@ export const Book = ({ data, onBookChangerState }) => (
         </div>
         <div className="book-title">{data.title}</div>
         <div className="book-authors">
-            <If test={data.authors !== undefined}>
+            <If test={authors.length > 0}>
                 <span>{data.authors.join(", ")}</span>
             </If>
         </div>
-    </div>
-);
+    </div>)
+};
 
 export const Shelf = ({ title = "No title", books = [], onBookChangerState }) => (
     <div className="bookshelf" >
