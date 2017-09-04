@@ -15,7 +15,7 @@ class HomeScene extends Component {
                 {p_Shelfs.map(s => (
                     <Shelf key={s.id} title={s.title}
                         books={this._filterBooksByShelf(s.id)}
-                        onBookChangerState={this.props.onBookChangerState} />
+                        onBookChangeShelf={this.props.onBookChangeShelf} />
                 ))}
             </div>
         </If>

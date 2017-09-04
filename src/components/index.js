@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const Book = ({ data, onBookChangerState }) => {
+export const Book = ({ data, onBookChangeShelf }) => {
     const { authors = [] } = data;
     return (<div className="book">
         <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${data.imageLinks.smallThumbnail}")` }}></div>
             <div className="book-shelf-changer">
-                <select onChange={(e) => onBookChangerState(e)(data)} defaultValue={data.shelf}>
+                <select onChange={(e) => onBookChangeShelf(e)(data)} defaultValue={data.shelf}>
                     <option value="none" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
@@ -24,14 +24,14 @@ export const Book = ({ data, onBookChangerState }) => {
     </div>)
 };
 
-export const Shelf = ({ title = "No title", books = [], onBookChangerState }) => (
+export const Shelf = ({ title = "No title", books = [], onBookChangeShelf }) => (
     <div className="bookshelf" >
         <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
             <ol className="books-grid">
                 {books.map(book => (
                     <li key={book.id}>
-                        <Book data={book} onBookChangerState={onBookChangerState} />
+                        <Book data={book} onBookChangeShelf={onBookChangeShelf} />
                     </li>
                 ))}
             </ol>

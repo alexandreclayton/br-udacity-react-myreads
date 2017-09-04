@@ -27,7 +27,7 @@ class BooksApp extends Component {
     return (resultFilter.length > 0) ? resultFilter[0].shelf = p_newShelf : {};
   }
 
-  onBookChangerState = (evt) => (book) => {
+  onBookChangeShelf = (evt) => (book) => {
     const shelfTarget = evt.target.value;
     BooksAPI.update(book, shelfTarget).then(books => {
       books[shelfTarget].forEach((p_bookId) => {
@@ -41,7 +41,7 @@ class BooksApp extends Component {
       <div className="app">
         <Route exact path='/' render={() => (
           <HomeScene books={this.state.books} shelfs={this.state.shelfs}
-            onBookChangerState={this.onBookChangerState}
+            onBookChangeShelf={this.onBookChangeShelf}
           />
         )} />
         <Route path='/search' render={({ history }) => (
