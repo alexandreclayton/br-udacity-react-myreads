@@ -15,7 +15,11 @@ export const Book = ({ data, onBookChangerState }) => (
             </div>
         </div>
         <div className="book-title">{data.title}</div>
-        <div className="book-authors">{data.authors.join(", ")}</div>
+        <div className="book-authors">
+            <If test={data.authors !== undefined}>
+                <span>{data.authors.join(", ")}</span>
+            </If>
+        </div>
     </div>
 );
 
@@ -33,3 +37,5 @@ export const Shelf = ({ title = "No title", books = [], onBookChangerState }) =>
         </div>
     </div>
 );
+
+export const If = ({ test, children }) => (test ? children : false);
