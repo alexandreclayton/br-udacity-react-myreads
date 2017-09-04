@@ -16,9 +16,17 @@ class BooksApp extends Component {
     });
   }
 
+  _updateBookShelf = (p_bookId, p_newShelf) => {
+    const resultFilter = this.state.books.filter(b => b.id === p_bookId);
+    return (resultFilter.length > 0) ? resultFilter[0].shelf = p_newShelf : {};
+  }
+
   onBookChangerState = (evt) => (book) => {
-    BooksAPI.update(book, evt.target.value).then(books => {
-      this.setState((state) => ({ books }))
+    const shelfTarget = evt.target.value;
+    BooksAPI.update(book, shelfTarget).then(books => {
+      books[shelfTarget].forEach((p_bookId) => {
+        this.setState({ books: [...this.state.books, this._updateBookShelf(p_bookId, shelfTarget)] });
+      });
     });
   }
 

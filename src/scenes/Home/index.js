@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { Shelf } from '../../components';
 
 class HomeScene extends Component {
-    render() {
-        let booksReanding = this.props.books.filter(b => b.shelf === "currentlyReading");
-        let bookWantToRead = this.props.books.filter(b => b.shelf === "wantToRead");
-        let booksRead = this.props.books.filter(b => b.shelf === "read");
 
+    _filterBooksByShelf = (p_Shelf) => {
+        const { books = [] } = this.props;
+        return books.filter(b => b.shelf === p_Shelf);
+    }
+
+    render() {
         return (<div className="list-books">
             <div className="list-books-title">
                 <h1>MyReads</h1>
@@ -15,13 +17,13 @@ class HomeScene extends Component {
             <div className="list-books-content">
                 <div>
                     <Shelf title="Currently Reading"
-                        books={booksReanding}
+                        books={this._filterBooksByShelf("currentlyReading")}
                         onBookChangerState={this.props.onBookChangerState} />
                     <Shelf title="Want to Read"
-                        books={bookWantToRead}
+                        books={this._filterBooksByShelf("wantToRead")}
                         onBookChangerState={this.props.onBookChangerState} />
                     <Shelf title="Read"
-                        books={booksRead}
+                        books={this._filterBooksByShelf("read")}
                         onBookChangerState={this.props.onBookChangerState} />
                 </div>
             </div>
