@@ -38,4 +38,7 @@ export const Shelf = ({ title = "No title", books = [], onBookChangerState }) =>
     </div>
 );
 
-export const If = ({ test, children }) => (test ? children : false);
+export const Loading = () => (<div><span className="loading-img"></span> <span className="loading-text">Loading...</span></div>);
+
+export const If = ({ test, fail = false, children }) => (test ? children : fail);
+

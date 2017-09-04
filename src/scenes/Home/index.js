@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Shelf } from '../../components';
+import { Shelf, Loading, If } from '../../components';
 
 class HomeScene extends Component {
 
@@ -9,21 +9,17 @@ class HomeScene extends Component {
         return books.filter(b => b.shelf === p_Shelf);
     }
 
-    _loadShelfs = (p_Shelfs) => {
-        if (p_Shelfs.length > 0) {
-            return (
-                <div>
-                    {p_Shelfs.map(s => (
-                        <Shelf key={s.id} title={s.title}
-                            books={this._filterBooksByShelf(s.id)}
-                            onBookChangerState={this.props.onBookChangerState} />
-                    ))}
-                </div>
-            );
-        } else {
-            return (<div><span className="loading-img"></span> <span className="loading-text">Loading...</span></div>);
-        }
-    }
+    _loadShelfs = (p_Shelfs) => (
+        <If test={p_Shelfs.length > 0} fail={<Loading/>}>
+            <div>
+                {p_Shelfs.map(s => (
+                    <Shelf key={s.id} title={s.title}
+                        books={this._filterBooksByShelf(s.id)}
+                        onBookChangerState={this.props.onBookChangerState} />
+                ))}
+            </div>
+        </If>
+    )
 
     render() {
         return (<div className="list-books">
