@@ -22,17 +22,24 @@ class BooksApp extends Component {
     });
   }
 
-  _updateBookShelf = (p_bookId, p_newShelf) => {
+  _updateBookShelf = (p_bookId, p_newShelf) => {    
     const resultFilter = this.state.books.filter(b => b.id === p_bookId);
     return (resultFilter.length > 0) ? resultFilter[0].shelf = p_newShelf : {};
   }
 
-  onBookChangeShelf = (evt) => (book) => {
+  onBookChangeShelf = (evt) => (p_book) => {
+    const { books } = this.state;
     const shelfTarget = evt.target.value;
-    BooksAPI.update(book, shelfTarget).then(books => {
-      books[shelfTarget].forEach((p_bookId) => {
-        this.setState({ books: [...this.state.books, this._updateBookShelf(p_bookId, shelfTarget)] });
-      });
+    const filterBook = books.filter(b => b.id === p_book.id);
+    BooksAPI.update(p_book, shelfTarget).then(p_books => {
+      if (filterBook > 0) {
+        p_books[shelfTarget].forEach((p_bookId) => {
+          this.setState({ books: [...this.state.books, this._updateBookShelf(p_bookId, shelfTarget)] });
+        });
+      } else {
+        p_book.shelf = shelfTarget;
+        this.setState({ books: [...this.state.books, p_book] });
+      }
     });
   }
 
@@ -45,7 +52,7 @@ class BooksApp extends Component {
           />
         )} />
         <Route path='/search' render={({ history }) => (
-          <SearchScene />
+          <SearchScene onBookChangeShelf={this.onBookChangeShelf} />
         )} />
       </div>
     )

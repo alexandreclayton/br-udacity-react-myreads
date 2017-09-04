@@ -1,12 +1,13 @@
 import React from 'react';
 
 export const Book = ({ data, onBookChangeShelf }) => {
-    const { authors = [] } = data;
+    const { authors = [], imageLinks = {}, shelf = "none" } = data;
+    const { smallThumbnail = "noimage" } = imageLinks;
     return (<div className="book">
         <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${data.imageLinks.smallThumbnail}")` }}></div>
+            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${smallThumbnail}")` }}></div>
             <div className="book-shelf-changer">
-                <select onChange={(e) => onBookChangeShelf(e)(data)} defaultValue={data.shelf}>
+                <select onChange={(e) => onBookChangeShelf(e)(data)} defaultValue={shelf}>
                     <option value="none" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
@@ -18,7 +19,7 @@ export const Book = ({ data, onBookChangeShelf }) => {
         <div className="book-title">{data.title}</div>
         <div className="book-authors">
             <If test={authors.length > 0}>
-                <span>{data.authors.join(", ")}</span>
+                <span>{authors.join(", ")}</span>
             </If>
         </div>
     </div>)
