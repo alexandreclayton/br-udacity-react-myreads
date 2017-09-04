@@ -9,8 +9,8 @@ class HomeScene extends Component {
         return books.filter(b => b.shelf === p_Shelf);
     }
 
-    _loadShelfs = (p_Shelfs) => (
-        <If test={p_Shelfs.length > 0} fail={<Loading/>}>
+    _loadShelfs = (p_Shelfs = []) => (
+        <If test={p_Shelfs.length > 0} fail={<Loading />}>
             <div>
                 {p_Shelfs.map(s => (
                     <Shelf key={s.id} title={s.title}
