@@ -8,7 +8,8 @@ import './App.css'
 class BooksApp extends Component {
   state = {
     shelfs: [],
-    books: []
+    books: [],
+    checked: false
   }
 
   componentDidMount() {
@@ -22,7 +23,7 @@ class BooksApp extends Component {
     });
   }
 
-  _updateBookShelf = (p_bookId, p_newShelf) => {    
+  _updateBookShelf = (p_bookId, p_newShelf) => {
     const resultFilter = this.state.books.filter(b => b.id === p_bookId);
     return (resultFilter.length > 0) ? resultFilter[0].shelf = p_newShelf : {};
   }
@@ -34,21 +35,47 @@ class BooksApp extends Component {
     BooksAPI.update(p_book, shelfTarget).then(p_books => {
       if (filterBook > 0) {
         p_books[shelfTarget].forEach((p_bookId) => {
-          this.setState({ books: [...this.state.books, this._updateBookShelf(p_bookId, shelfTarget)] });
+          this.setState({ books: [...books, this._updateBookShelf(p_bookId, shelfTarget)] });
         });
       } else {
         p_book.shelf = shelfTarget;
-        this.setState({ books: [...this.state.books, p_book] });
+        this.setState({ books: [...books, p_book] });
       }
     });
   }
 
+  onBookCheck = (evt) => (p_book) => {
+    const { books } = this.state;
+    p_book.checked = evt.target.checked;
+    this.setState({ ...books, p_book, checked: (books.filter(b => b.checked == true).length > 0) });
+  }
+
+  onBookChangeShelfMulti = (evt) => {
+    const { books } = this.state;
+    const shelfTarget = evt.target.value;
+    const booksChecked = books.filter(b => b.checked == true);
+    for (let book of booksChecked) {
+      book.checked = false;
+      BooksAPI.update(book, shelfTarget).then(p_books => {
+        p_books[shelfTarget].forEach((p_bookId) => {
+          this.setState({ books: [...books, this._updateBookShelf(p_bookId, shelfTarget)], checked: false });
+        });
+      });
+    }
+  }
+
   render() {
+    const { books, shelfs, checked } = this.state;
     return (
       <div className="app">
         <Route exact path='/' render={() => (
-          <HomeScene books={this.state.books} shelfs={this.state.shelfs}
+          <HomeScene
+            books={books}
+            shelfs={shelfs}
             onBookChangeShelf={this.onBookChangeShelf}
+            showBtnMultiChange={checked}
+            onBookCheck={this.onBookCheck}
+            onBookChangeShelfMulti={this.onBookChangeShelfMulti}
           />
         )} />
         <Route path='/search' render={({ history }) => (

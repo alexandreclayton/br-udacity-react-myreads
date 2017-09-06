@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const Book = ({ data, onBookChangeShelf }) => {
-    const { authors = [], imageLinks = {}, shelf = "none" } = data;
+export const Book = ({ data, onBookChangeShelf, onBookCheck }) => {
+    const { authors = [], imageLinks = {}, shelf = "none", checked = false } = data;
     const { smallThumbnail = "noimage" } = imageLinks;
     return (<div className="book">
         <div className="book-top">
@@ -22,17 +22,23 @@ export const Book = ({ data, onBookChangeShelf }) => {
                 <span>{authors.join(", ")}</span>
             </If>
         </div>
+        <input type="checkbox"
+            name={`ckb_${shelf}`}
+            checked={checked}
+            onChange={(e) => onBookCheck(e)(data)} />
     </div>)
 };
 
-export const Shelf = ({ title = "No title", books = [], onBookChangeShelf }) => (
+export const Shelf = ({ title = "No title", books = [], onBookChangeShelf, onBookCheck }) => (
     <div className="bookshelf" >
         <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
             <ol className="books-grid">
                 {books.map(book => (
                     <li key={book.id}>
-                        <Book data={book} onBookChangeShelf={onBookChangeShelf} />
+                        <Book data={book}
+                            onBookChangeShelf={onBookChangeShelf}
+                            onBookCheck={onBookCheck} />
                     </li>
                 ))}
             </ol>
