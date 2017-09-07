@@ -65,6 +65,14 @@ class BooksApp extends Component {
     }
   }
 
+  AddMultiBooksSearch = (p_books) => {
+    const { books } = this.state;
+    for (let book of p_books) {
+      BooksAPI.update(book, book.shelf);
+    }
+    this.setState({ books: [...books, ...p_books] });
+  }
+
   render() {
     const { books, shelfs, checked } = this.state;
     return (
@@ -82,9 +90,7 @@ class BooksApp extends Component {
         <Route path='/search' render={({ history }) => (
           <SearchScene
             onBookChangeShelf={this.onBookChangeShelf}
-            showBtnMultiChange={checked}
-            onBookCheck={this.onBookCheck}
-            onBookChangeShelfMulti={this.onBookChangeShelfMulti}
+            AddMultiBooksSearch={this.AddMultiBooksSearch}
           />
         )} />
       </div>

@@ -7,7 +7,8 @@ import { Book, SelectShelfBook } from '../../components'
 class SearchScene extends Component {
     state = {
         query: '',
-        books: []
+        books: [],
+        checked: false
     }
 
     onChangeQuery = (query) => {
@@ -23,10 +24,28 @@ class SearchScene extends Component {
         }
     }
 
+    onBookCheck = (evt) => (p_book) => {
+        const { books } = this.state;
+        p_book.checked = evt.target.checked;
+        this.setState({ ...books, p_book, checked: (books.filter(b => b.checked === true).length > 0) });
+    }
+
+    onBookChangeShelfMulti = (evt) => {
+        debugger;
+        const { books } = this.state;
+        const { AddMultiBooksSearch } = this.props;
+        const shelfTarget = evt.target.value;
+        let booksChecked = books.filter(b => b.checked === true);
+        for (let book of booksChecked) {
+            book.shelf = shelfTarget;
+            book.checked = false;
+        }
+        AddMultiBooksSearch(booksChecked);
+    }
+
     render() {
-        let { query = "", books = [] } = this.state;
-        let { showBtnMultiChange, onBookCheck, onBookChangeShelf, onBookChangeShelfMulti } = this.props;
-        console.log(showBtnMultiChange);
+        let { query = "", books = [], checked } = this.state;
+        let { onBookChangeShelf } = this.props;
         return (<div className="search-books">
             <div className="search-books-bar">
                 <Link className='close-search' to='/'>Close</Link>
@@ -43,13 +62,13 @@ class SearchScene extends Component {
                         <li key={book.id}>
                             <Book data={book}
                                 onBookChangeShelf={onBookChangeShelf}
-                                onBookCheck={onBookCheck} />
+                                onBookCheck={this.onBookCheck} />
                         </li>
                     ))}
                 </ol>
             </div>
-            {showBtnMultiChange && <div className="book-shelf-multi-add">
-                <SelectShelfBook onEvtChange={onBookChangeShelfMulti} />
+            {checked && <div className="book-shelf-multi-search">
+                <SelectShelfBook onChange={this.onBookChangeShelfMulti} />
             </div>}
         </div>);
     }
