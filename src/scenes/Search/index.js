@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../../services/api/BooksAPI';
-import { Book } from '../../components'
+import { Book, SelectShelfBook } from '../../components'
 
 
 class SearchScene extends Component {
@@ -25,7 +25,8 @@ class SearchScene extends Component {
 
     render() {
         let { query = "", books = [] } = this.state;
-        console.log(books);
+        let { showBtnMultiChange, onBookCheck, onBookChangeShelf, onBookChangeShelfMulti } = this.props;
+        console.log(showBtnMultiChange);
         return (<div className="search-books">
             <div className="search-books-bar">
                 <Link className='close-search' to='/'>Close</Link>
@@ -40,11 +41,16 @@ class SearchScene extends Component {
                 <ol className="books-grid">
                     {books.map(book => (
                         <li key={book.id}>
-                            <Book data={book} onBookChangeShelf={this.props.onBookChangeShelf} />
+                            <Book data={book}
+                                onBookChangeShelf={onBookChangeShelf}
+                                onBookCheck={onBookCheck} />
                         </li>
                     ))}
                 </ol>
             </div>
+            {showBtnMultiChange && <div className="book-shelf-multi-add">
+                <SelectShelfBook onEvtChange={onBookChangeShelfMulti} />
+            </div>}
         </div>);
     }
 }

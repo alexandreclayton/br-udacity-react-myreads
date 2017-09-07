@@ -7,13 +7,7 @@ export const Book = ({ data, onBookChangeShelf, onBookCheck }) => {
         <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${smallThumbnail}")` }}></div>
             <div className="book-shelf-changer">
-                <select onChange={(e) => onBookChangeShelf(e)(data)} defaultValue={shelf}>
-                    <option value="none" disabled>Move to...</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
-                </select>
+                <SelectShelfBook onChange={onBookChangeShelf} book={data} defaultValue={shelf} />
             </div>
         </div>
         <div className="book-title">{data.title}</div>
@@ -44,6 +38,16 @@ export const Shelf = ({ title = "No title", books = [], onBookChangeShelf, onBoo
             </ol>
         </div>
     </div>
+);
+
+export const SelectShelfBook = ({ onChange = {}, book = {}, defaultValue = "none" }) => (
+    <select onChange={(book.id !== undefined ? (evt) => onChange(evt)(book) : (evt) => onChange(evt))} defaultValue={defaultValue}>
+        <option value="none" disabled>Move to...</option>
+        <option value="currentlyReading">Currently Reading</option>
+        <option value="wantToRead">Want to Read</option>
+        <option value="read">Read</option>
+        <option value="none">None</option>
+    </select>
 );
 
 export const Loading = () => (<div><span className="loading-img"></span> <span className="loading-text">Loading...</span></div>);

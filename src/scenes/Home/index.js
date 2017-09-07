@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Shelf, Loading, If } from '../../components';
+import { Shelf, Loading, If, SelectShelfBook } from '../../components';
 
 class HomeScene extends Component {
 
@@ -38,13 +38,7 @@ class HomeScene extends Component {
                 <Link to='/search'>Add a book</Link>
             </div>
             {showBtnMultiChange && <div className="book-shelf-multi-add">
-                <select onChange={(evt) => onBookChangeShelfMulti(evt)} defaultValue={"none"}>
-                    <option value="none" disabled>Move to...</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
-                </select>
+                <SelectShelfBook onChange={onBookChangeShelfMulti} />
             </div>}
         </div >);
     }

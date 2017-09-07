@@ -29,17 +29,18 @@ class BooksApp extends Component {
   }
 
   onBookChangeShelf = (evt) => (p_book) => {
+    debugger;
     const { books } = this.state;
     const shelfTarget = evt.target.value;
     const filterBook = books.filter(b => b.id === p_book.id);
     BooksAPI.update(p_book, shelfTarget).then(p_books => {
-      if (filterBook > 0) {
+      if (filterBook.length > 0) {
         p_books[shelfTarget].forEach((p_bookId) => {
           this.setState({ books: [...books, this._updateBookShelf(p_bookId, shelfTarget)] });
         });
       } else {
         p_book.shelf = shelfTarget;
-        this.setState({ books: [...books, p_book] });
+        this.setState({ books: [p_book, ...books] });
       }
     });
   }
@@ -47,13 +48,13 @@ class BooksApp extends Component {
   onBookCheck = (evt) => (p_book) => {
     const { books } = this.state;
     p_book.checked = evt.target.checked;
-    this.setState({ ...books, p_book, checked: (books.filter(b => b.checked == true).length > 0) });
+    this.setState({ ...books, p_book, checked: (books.filter(b => b.checked === true).length > 0) });
   }
 
   onBookChangeShelfMulti = (evt) => {
     const { books } = this.state;
     const shelfTarget = evt.target.value;
-    const booksChecked = books.filter(b => b.checked == true);
+    const booksChecked = books.filter(b => b.checked === true);
     for (let book of booksChecked) {
       book.checked = false;
       BooksAPI.update(book, shelfTarget).then(p_books => {
@@ -79,7 +80,12 @@ class BooksApp extends Component {
           />
         )} />
         <Route path='/search' render={({ history }) => (
-          <SearchScene onBookChangeShelf={this.onBookChangeShelf} />
+          <SearchScene
+            onBookChangeShelf={this.onBookChangeShelf}
+            showBtnMultiChange={checked}
+            onBookCheck={this.onBookCheck}
+            onBookChangeShelfMulti={this.onBookChangeShelfMulti}
+          />
         )} />
       </div>
     )
