@@ -29,7 +29,6 @@ class BooksApp extends Component {
   }
 
   onBookChangeShelf = (evt) => (p_book) => {
-    debugger;
     const { books } = this.state;
     const shelfTarget = evt.target.value;
     const filterBook = books.filter(b => b.id === p_book.id);

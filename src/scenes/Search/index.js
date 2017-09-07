@@ -31,7 +31,6 @@ class SearchScene extends Component {
     }
 
     onBookChangeShelfMulti = (evt) => {
-        debugger;
         const { books } = this.state;
         const { AddMultiBooksSearch } = this.props;
         const shelfTarget = evt.target.value;
