@@ -24,11 +24,21 @@ To get started developing right away:
     ├── App.css # Styles for your app. Feel free to customize this as you desire.
     ├── App.js # This is the root of your app. Contains static HTML right now.
     ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
     ├── icons # Helpful images for your app. Use at your discretion.
     │   ├── add.svg
     │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
+    │   ├── arrow-drop-down.svg
+    │   └── loading.svg
+    ├── scenes # Scenes of the application
+    │   ├── Home 
+    │   │   └── index.js # Main application scene
+    │   └── Search 
+    │       └── index.js # Scene used to search books
+    ├── components
+    │   └── index.js # Components used in scenes
+    ├── services
+    │   └── api
+    │       └── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
     ├── index.css # Global styles. You probably won't need to change anything here.
     └── index.js # You should not need to modify this file. It is used for DOM rendering only.
 ```
