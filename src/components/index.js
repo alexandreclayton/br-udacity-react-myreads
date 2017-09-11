@@ -5,8 +5,8 @@ export const Book = ({ data, onBookChangeShelf, onBookCheck }) => {
     const { smallThumbnail = "noimage" } = imageLinks;
     return (<div className="book">
         <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193}}>
-                <img width="100%" height="100%" src={smallThumbnail} alt={`Picture of the book ${data.title}`} />
+            <div className="book-cover">
+                <img src={smallThumbnail} alt={`Picture of the book ${data.title}`} />
             </div>
             <div className="book-shelf-changer">
                 <SelectShelfBook onChange={onBookChangeShelf} book={data} defaultValue={shelf} />
