@@ -6,7 +6,7 @@ export const Book = ({ data, onBookChangeShelf, onBookCheck }) => {
     return (<div className="book">
         <div className="book-top">
             <div className="book-cover">
-                <img src={smallThumbnail} alt={`Picture of the book ${data.title}`} />
+                <img src={smallThumbnail} alt={`Book ${data.title}`} />
             </div>
             <div className="book-shelf-changer">
                 <SelectShelfBook onChange={onBookChangeShelf} book={data} defaultValue={shelf} />
