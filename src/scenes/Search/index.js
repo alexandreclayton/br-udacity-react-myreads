@@ -27,7 +27,7 @@ class SearchScene extends Component {
     onBookCheck = (evt) => (p_book) => {
         const { books } = this.state;
         p_book.checked = evt.target.checked;
-        this.setState({ ...books, p_book, checked: (books.filter(b => b.checked === true).length > 0) });
+        this.setState({ ...books, p_book, checked: (books.find(b => b.checked === true) !== undefined) });
     }
 
     onBookChangeShelfMulti = (evt) => {

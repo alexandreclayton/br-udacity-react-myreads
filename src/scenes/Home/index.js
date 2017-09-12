@@ -35,7 +35,7 @@ class HomeScene extends Component {
                 {this._loadShelfs(shelfs)}
             </div>
             <div className="open-search">
-                <Link to='/search'>Add a book</Link>
+                <Link to="/search">Add a book</Link>
             </div>
             {showBtnMultiChange && <div className="book-shelf-multi-add">
                 <SelectShelfBook onChange={onBookChangeShelfMulti} />

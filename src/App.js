@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import * as BooksAPI from './services/api/BooksAPI';
 import HomeScene from './scenes/Home';
 import SearchScene from './scenes/Search';
-import './App.css'
+import './App.css';
 
 class BooksApp extends Component {
   state = {
@@ -24,22 +24,26 @@ class BooksApp extends Component {
   }
 
   _updateBookShelf = (p_bookId, p_newShelf) => {
-    const resultFilter = this.state.books.filter(b => b.id === p_bookId);
-    return (resultFilter.length > 0) ? resultFilter[0].shelf = p_newShelf : {};
+    const resultFind = this.state.books.find(b => b.id === p_bookId);
+    return (resultFind !== undefined) ? resultFind.shelf = p_newShelf : {};
   }
 
   onBookChangeShelf = (evt) => (p_book) => {
     const { books } = this.state;
     const shelfTarget = evt.target.value;
-    const filterBook = books.filter(b => b.id === p_book.id);
+    const filterBook = books.find(b => b.id === p_book.id);
     BooksAPI.update(p_book, shelfTarget).then(p_books => {
-      if (filterBook.length > 0) {
-        p_books[shelfTarget].forEach((p_bookId) => {
-          this.setState({ books: [...books, this._updateBookShelf(p_bookId, shelfTarget)] });
-        });
+      if (shelfTarget !== "none") {
+        if (filterBook !== undefined) {
+          p_books[shelfTarget].forEach((p_bookId) => {
+            this.setState({ books: [...books, this._updateBookShelf(p_bookId, shelfTarget)] });
+          });
+        } else {
+          p_book.shelf = shelfTarget;
+          this.setState({ books: [p_book, ...books] });
+        }
       } else {
-        p_book.shelf = shelfTarget;
-        this.setState({ books: [p_book, ...books] });
+        this.setState({ books: books.filter(b => b.id !== p_book.id) });
       }
     });
   }
@@ -57,9 +61,13 @@ class BooksApp extends Component {
     for (let book of booksChecked) {
       book.checked = false;
       BooksAPI.update(book, shelfTarget).then(p_books => {
-        p_books[shelfTarget].forEach((p_bookId) => {
-          this.setState({ books: [...books, this._updateBookShelf(p_bookId, shelfTarget)], checked: false });
-        });
+        if (shelfTarget !== "none") {
+          p_books[shelfTarget].forEach((p_bookId) => {
+            this.setState({ books: [...books, this._updateBookShelf(p_bookId, shelfTarget)], checked: false });
+          });
+        } else {
+          this.setState({ books: books.filter(b => b.id !== book.id) });
+        }
       });
     }
   }

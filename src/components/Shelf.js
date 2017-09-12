@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Book } from './Book'
 
-export const Shelf = ({ title, books, onBookChangeShelf, onBookCheck}) => (
+export const Shelf = ({ title, books, onBookChangeShelf, onBookCheck }) => (
     <div className="bookshelf" >
         <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
@@ -43,11 +43,12 @@ export const SelectShelfBook = ({ onChange, book, defaultValue }) => (
 );
 
 SelectShelfBook.defaultProps = {
+    book: {},
     defaultValue: "none"
 }
 
 SelectShelfBook.propTypes = {
-    onChange: PropTypes.func.isRequired,  
+    onChange: PropTypes.func.isRequired,
     book: PropTypes.object.isRequired,
-    defaultValue: PropTypes.string    
+    defaultValue: PropTypes.string
 };
