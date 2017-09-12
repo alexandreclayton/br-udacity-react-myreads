@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 import { Book } from './Book'
 
 export const Shelf = ({ title, books, onBookChangeShelf, onBookCheck}) => (
@@ -33,7 +32,7 @@ Shelf.propTypes = {
     onBookCheck: PropTypes.func.isRequired
 };
 
-export const SelectShelfBook = ({ onChange, book, defaultValue = "none" }) => (
+export const SelectShelfBook = ({ onChange, book, defaultValue }) => (
     <select onChange={(book.id !== undefined ? (evt) => onChange(evt)(book) : (evt) => onChange(evt))} defaultValue={defaultValue}>
         <option value="none" disabled>Move to...</option>
         <option value="currentlyReading">Currently Reading</option>

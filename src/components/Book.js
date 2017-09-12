@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { SelectShelfBook } from './Shelf';
 import { If } from './If';
@@ -26,4 +27,10 @@ export const Book = ({ data, onBookChangeShelf, onBookCheck }) => {
             checked={checked}
             onChange={(e) => onBookCheck(e)(data)} />
     </div>)
+};
+
+Book.propTypes = {
+    data: PropTypes.object.isRequired,
+    onBookChangeShelf: PropTypes.func.isRequired,
+    onBookCheck: PropTypes.func.isRequired
 };
