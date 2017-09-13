@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../../services/api/BooksAPI';
-import { Book, SelectShelfBook } from '../../components'
+import { Book, SelectShelfBook, If, Loading } from '../../components';
 
 
 class SearchScene extends Component {
@@ -12,13 +12,15 @@ class SearchScene extends Component {
     };
 
     onChangeQuery = (query) => {
-        this.setState({ query: query })
+        this.setState({ query })
         const queryTrim = query.trim();
         if (queryTrim !== "") {
             BooksAPI.search(queryTrim, 10).then((books) => {
-                const { error = "" } = books;
+                const { error = "", items = [] } = books;
                 if (error === "") {
                     this.setState({ books });
+                } else {
+                    this.setState({ books: items });
                 }
             });
         }
@@ -44,7 +46,7 @@ class SearchScene extends Component {
 
     render() {
         let { query = "", books = [], checked } = this.state;
-        let { onBookChangeShelf } = this.props;
+        let { onBookChangeShelf, onBookExist } = this.props;
         return (<div className="search-books">
             <div className="search-books-bar">
                 <Link className="close-search" to="/">Close</Link>
@@ -56,15 +58,15 @@ class SearchScene extends Component {
                 </div>
             </div>
             <div className="search-books-results">
-                <ol className="books-grid">
-                    {books.map(book => (
-                        <li key={book.id}>
-                            <Book data={book}
+                <If test={books.length > 0 || query === ""} fail={<Loading title="Searching..." />}>
+                    <ol className="books-grid">
+                        {books.map(book => (<li key={book.id}>
+                            <Book data={onBookExist(book)}
                                 onBookChangeShelf={onBookChangeShelf}
                                 onBookCheck={this.onBookCheck} />
-                        </li>
-                    ))}
-                </ol>
+                        </li>))}
+                    </ol>
+                </If>
             </div>
             {checked && <div className="book-shelf-multi-search">
                 <SelectShelfBook onChange={this.onBookChangeShelfMulti} />

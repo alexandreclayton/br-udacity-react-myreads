@@ -5,7 +5,7 @@ import { SelectShelfBook } from './Shelf';
 import { If } from './If';
 
 export const Book = ({ data, onBookChangeShelf, onBookCheck }) => {
-    const { authors = [], imageLinks = {}, shelf = "none", checked = false } = data;
+    const { authors = [], imageLinks = {}, shelf = "", checked = false } = data;
     const { smallThumbnail = "noimage" } = imageLinks;
     return (<div className="book">
         <div className="book-top">

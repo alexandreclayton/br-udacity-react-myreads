@@ -23,18 +23,13 @@ class BooksApp extends Component {
     });
   };
 
-  _updateBookShelf = (p_bookId, p_newShelf) => {
-    const resultFind = this.state.books.find(b => b.id === p_bookId);
-    return (resultFind !== undefined) ? resultFind.shelf = p_newShelf : {};
-  };
-
-  onBookChangeShelf = (evt) => (book) => {
+  onBookChangeShelf = (evt) => (p_book) => {
     const { books } = this.state;
     const shelfTarget = evt.target.value;
-    const filterBook = books.find(b => b.id === book.id);
-    BooksAPI.update(book, shelfTarget).then(p_books => {
-      book.shelf = shelfTarget;
-      this.setState({ ...books, book, checked: false });
+    const filterBook = books.find(b => b.id === p_book.id);
+    BooksAPI.update(p_book, shelfTarget).then(p_books => {
+      p_book.shelf = shelfTarget;
+      this.setState({ ...books, p_book, checked: false });
     });
   };
 
@@ -66,6 +61,12 @@ class BooksApp extends Component {
     }
   };
 
+  onBookExist = (p_book) => {
+    const { books } = this.state;
+    const book = books.find(b => b.id === p_book.id);
+    return (book !== undefined ? book : p_book);
+  };
+
   render() {
     const { books, shelfs, checked } = this.state;
     return (
@@ -84,6 +85,7 @@ class BooksApp extends Component {
           <SearchScene
             onBookChangeShelf={this.onBookChangeShelf}
             AddMultiBooksSearch={this.AddMultiBooksSearch}
+            onBookExist={this.onBookExist}
           />
         )} />
       </div>
