@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Book } from './Book'
+import { Book } from './Book';
 
 export const Shelf = ({ title, books, onBookChangeShelf, onBookCheck }) => (
     <div className="bookshelf" >
@@ -23,7 +23,7 @@ export const Shelf = ({ title, books, onBookChangeShelf, onBookCheck }) => (
 Shelf.defaultProps = {
     title: "No title",
     books: []
-}
+};
 
 Shelf.propTypes = {
     title: PropTypes.string,
@@ -34,7 +34,7 @@ Shelf.propTypes = {
 
 export const SelectShelfBook = ({ onChange, book, defaultValue }) => (
     <select onChange={(book.id !== undefined ? (evt) => onChange(evt)(book) : (evt) => onChange(evt))} defaultValue={defaultValue}>
-        <option value="none" disabled>Move to...</option>
+        <option value="" disabled>Move to...</option>
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>
         <option value="read">Read</option>
@@ -44,8 +44,8 @@ export const SelectShelfBook = ({ onChange, book, defaultValue }) => (
 
 SelectShelfBook.defaultProps = {
     book: {},
-    defaultValue: "none"
-}
+    defaultValue: ""
+};
 
 SelectShelfBook.propTypes = {
     onChange: PropTypes.func.isRequired,

@@ -6,10 +6,10 @@ import { Book, SelectShelfBook } from '../../components'
 
 class SearchScene extends Component {
     state = {
-        query: '',
+        query: "",
         books: [],
         checked: false
-    }
+    };
 
     onChangeQuery = (query) => {
         this.setState({ query: query })
@@ -22,13 +22,13 @@ class SearchScene extends Component {
                 }
             });
         }
-    }
+    };
 
     onBookCheck = (evt) => (p_book) => {
         const { books } = this.state;
         p_book.checked = evt.target.checked;
         this.setState({ ...books, p_book, checked: (books.find(b => b.checked === true) !== undefined) });
-    }
+    };
 
     onBookChangeShelfMulti = (evt) => {
         const { books } = this.state;
@@ -40,14 +40,14 @@ class SearchScene extends Component {
             book.checked = false;
         }
         AddMultiBooksSearch(booksChecked);
-    }
+    };
 
     render() {
         let { query = "", books = [], checked } = this.state;
         let { onBookChangeShelf } = this.props;
         return (<div className="search-books">
             <div className="search-books-bar">
-                <Link className='close-search' to='/'>Close</Link>
+                <Link className="close-search" to="/">Close</Link>
                 <div className="search-books-input-wrapper">
                     <input type="text"
                         placeholder="Search by title or author"
@@ -70,6 +70,6 @@ class SearchScene extends Component {
                 <SelectShelfBook onChange={this.onBookChangeShelfMulti} />
             </div>}
         </div>);
-    }
-}
+    };
+};
 export default SearchScene;

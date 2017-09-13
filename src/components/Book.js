@@ -26,7 +26,7 @@ export const Book = ({ data, onBookChangeShelf, onBookCheck }) => {
             name={`ckb_${shelf}`}
             checked={checked}
             onChange={(e) => onBookCheck(e)(data)} />
-    </div>)
+    </div>);
 };
 
 Book.propTypes = {

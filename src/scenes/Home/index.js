@@ -7,7 +7,7 @@ class HomeScene extends Component {
     _filterBooksByShelf = (p_Shelf) => {
         const { books = [] } = this.props;
         return books.filter(b => b.shelf === p_Shelf);
-    }
+    };
 
     _loadShelfs = (p_Shelfs = []) => {
         let { onBookChangeShelf, onBookCheck } = this.props;
@@ -22,8 +22,8 @@ class HomeScene extends Component {
                     ))}
                 </div>
             </If>
-        )
-    }
+        );
+    };
 
     render() {
         let { shelfs, showBtnMultiChange, onBookChangeShelfMulti } = this.props;
@@ -41,7 +41,7 @@ class HomeScene extends Component {
                 <SelectShelfBook onChange={onBookChangeShelfMulti} />
             </div>}
         </div >);
-    }
+    };
 }
 
 export default HomeScene;
