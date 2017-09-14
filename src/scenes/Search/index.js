@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../../services/api/BooksAPI';
 import { Book, SelectShelfBook, If, Loading } from '../../components';
-
+import { Debounce } from 'react-throttle';
 
 class SearchScene extends Component {
+
     state = {
         query: "",
         books: [],
@@ -12,18 +13,9 @@ class SearchScene extends Component {
     };
 
     onChangeQuery = (query) => {
-        this.setState({ query })
-        const queryTrim = query.trim();
-        if (queryTrim !== "") {
-            BooksAPI.search(queryTrim, 10).then((books) => {
-                const { error = "", items = [] } = books;
-                if (error === "") {
-                    this.setState({ books });
-                } else {
-                    this.setState({ books: items });
-                }
-            });
-        }
+        BooksAPI.search(query, 10).then((books = []) => {
+            this.setState({ books, query });
+        });
     };
 
     onBookCheck = (evt) => (p_book) => {
@@ -51,10 +43,11 @@ class SearchScene extends Component {
             <div className="search-books-bar">
                 <Link className="close-search" to="/">Close</Link>
                 <div className="search-books-input-wrapper">
-                    <input type="text"
-                        placeholder="Search by title or author"
-                        onChange={(event) => this.onChangeQuery(event.target.value)}
-                        value={query} />
+                    <Debounce time="1000" handler="onChangeQuery">
+                        <input type="text"
+                            placeholder="Search by title or author"
+                            onChange={(evt) => this.onChangeQuery(evt.target.value)} />
+                    </Debounce>
                 </div>
             </div>
             <div className="search-books-results">
