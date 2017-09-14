@@ -13,8 +13,12 @@ class SearchScene extends Component {
     };
 
     onChangeQuery = (query) => {
-        BooksAPI.search(query, 10).then((books = []) => {
-            this.setState({ books, query });
+        BooksAPI.search(query, 10).then((books) => {
+            if (Array.isArray(books)) {
+                this.setState({ books, query });
+            } else {
+                this.setState({ books: [], query });
+            }
         });
     };
 
@@ -43,7 +47,7 @@ class SearchScene extends Component {
             <div className="search-books-bar">
                 <Link className="close-search" to="/">Close</Link>
                 <div className="search-books-input-wrapper">
-                    <Debounce time="1000" handler="onChangeQuery">
+                    <Debounce time="500" handler="onChangeQuery">
                         <input type="text"
                             placeholder="Search by title or author"
                             onChange={(evt) => this.onChangeQuery(evt.target.value)} />
@@ -51,7 +55,9 @@ class SearchScene extends Component {
                 </div>
             </div>
             <div className="search-books-results">
-                <If test={books.length > 0 || query === ""} fail={<Loading title="Searching..." />}>
+                <If test={books.length > 0
+                    || (query === "" && books.length === 0)
+                    || (query !== "" && books.length > 0)} fail={<h1>no results found for "{query}".</h1>}>
                     <ol className="books-grid">
                         {books.map(book => (<li key={book.id}>
                             <Book data={onBookExist(book)}
